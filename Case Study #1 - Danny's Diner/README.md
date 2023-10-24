@@ -56,61 +56,137 @@ The final members table captures the join_date when a customer_id joined the bet
 The following queries have been executed using PostgreSQL v13 on [DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138).
 
 **1. What is the total amount each customer spent at the restaurant?**
-
-
+#### Code:
+```sql
+SELECT
+  sales.customer_id,
+  SUM(menu.price) AS total_sales
+FROM dannys_diner.sales
+INNER JOIN dannys_diner.menu
+  ON sales.product_id = menu.product_id
+GROUP BY sales.customer_id
+ORDER BY sales.customer_id ASC;
+```
+#### Steps:
+- Use INNER JOIN to merge `dannys_diner.sales` and `dannys_diner.menu` tables based on `product_id` as we need `sales.customer_id` and `menu.price` values from the tables.
+- Use SUM Aggregation to calculate the total sales contributed by each customer.
+- Group the aggregated results using by `sales.customer_id`.
+#### Answer:
+|customer_id|total_sales|
+|-|-|
+|A|76|
+|B|74|
+|C|36|
+- Customer A spent $76.
+- Customer B spent $74.
+- Customer C spent $36.
 
 ---
 
 **2. How many days has each customer visited the restaurant?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **3. What was the first item from the menu purchased by each customer?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **5. Which item was the most popular for each customer?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **6. Which item was purchased first by the customer after they became a member?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **7. Which item was purchased just before the customer became a member?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **8. What is the total items and amount spent for each member before they became a member?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
 
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
+#### Code:
+```sql
 
+```
+#### Steps:
+
+#### Answer:
 
 
 ---
