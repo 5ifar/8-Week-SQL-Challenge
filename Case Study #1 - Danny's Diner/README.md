@@ -68,9 +68,10 @@ GROUP BY sales.customer_id
 ORDER BY sales.customer_id ASC;
 ```
 #### Steps:
-- Use INNER JOIN to merge `dannys_diner.sales` and `dannys_diner.menu` tables based on `product_id` as we need `sales.customer_id` and `menu.price` values from the tables.
-- Use SUM Aggregation to calculate the total sales contributed by each customer.
-- Group the aggregated results using by `sales.customer_id`.
+- Implement INNER JOIN to merge `dannys_diner.sales` and `dannys_diner.menu` tables based on `product_id` as we need `sales.customer_id` and `menu.price` values from the tables.
+- Group the results by `sales.customer_id`.
+- Perform `SUM` Aggregation to calculate the total sales contributed by each customer.
+
 #### Answer:
 |customer_id|total_sales|
 |-|-|
@@ -86,21 +87,37 @@ ORDER BY sales.customer_id ASC;
 **2. How many days has each customer visited the restaurant?**
 #### Code:
 ```sql
-
+SELECT
+  customer_id,
+	COUNT(DISTINCT(order_date)) AS visit_count
+FROM dannys_diner.sales
+GROUP BY customer_id
+ORDER BY customer_id ASC;
 ```
 #### Steps:
+- Group the results by `customer_id`.
+- To determine the unique number of visits for each customer, we implement the `COUNT(DISTINCT ))` aggregation on `order_date` values.
+- It's important to apply the DISTINCT keyword while calculating `visit_count` to avoid duplicate counting of days. For instance if Customer A visited the restaurant twice on '2021–01–01', counting without DISTINCT would result in 2 days instead of the accurate count of 1 day.
 
 #### Answer:
-
+|customer_id|visit_count|
+|-|-|
+|A|4|
+|B|6|
+|C|2|
+- Customer A visited 4 times.
+- Customer B visited 6 times.
+- Customer C visited 2 times.
 
 ---
 
 **3. What was the first item from the menu purchased by each customer?**
 #### Code:
 ```sql
-
+Yet to study CTEs.
 ```
 #### Steps:
+
 
 #### Answer:
 
@@ -110,21 +127,37 @@ ORDER BY sales.customer_id ASC;
 **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 #### Code:
 ```sql
-
+SELECT
+  menu.product_name,
+  COUNT(sales.order_date) AS purchase_count
+FROM dannys_diner.sales
+INNER JOIN dannys_diner.menu
+	ON sales.product_id = menu.product_id
+GROUP BY menu.product_name
+ORDER BY purchase_count DESC
+LIMIT 1;
 ```
 #### Steps:
+- Implement INNER JOIN to merge `dannys_diner.sales` and `dannys_diner.menu` tables based on `product_id` as we need `menu.product_name` and `sales.order_date` values from the tables.
+- Group the results by `menu.product_name`.
+- Perform a `COUNT` aggregation on the `sales.order_date` column and `ORDER BY` the result in descending order using the `purchase_count` alias.
+- Apply the LIMIT 1 clause to filter and retrieve the highest `purchase_count` item.
 
 #### Answer:
-
+|product_name|purchase_count|
+|-|-|
+|ramen|8|
+- Ramen is the Most purchased item (8 times) on the menu.
 
 ---
 
-**5. Which item was the most popular for each customer?**
+**5. Which item was the most popular item for each customer?**
 #### Code:
 ```sql
 
 ```
 #### Steps:
+
 
 #### Answer:
 
@@ -138,6 +171,7 @@ ORDER BY sales.customer_id ASC;
 ```
 #### Steps:
 
+
 #### Answer:
 
 
@@ -149,6 +183,7 @@ ORDER BY sales.customer_id ASC;
 
 ```
 #### Steps:
+
 
 #### Answer:
 
@@ -162,6 +197,7 @@ ORDER BY sales.customer_id ASC;
 ```
 #### Steps:
 
+
 #### Answer:
 
 
@@ -174,6 +210,7 @@ ORDER BY sales.customer_id ASC;
 ```
 #### Steps:
 
+
 #### Answer:
 
 
@@ -185,6 +222,7 @@ ORDER BY sales.customer_id ASC;
 
 ```
 #### Steps:
+
 
 #### Answer:
 
